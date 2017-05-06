@@ -2,7 +2,7 @@ defmodule MPC do
   defmacro mpc(do: block) do
     quote do
       {ret, _} = Code.eval_string(~s(System.cmd "mpc", [#{unquote(block)}])) |> elem(0)
-      ret
+      Regex.split(~r/\R/, ret) |> Enum.at(0)
     end
   end
   defmacro fmt(format, do: block) do
